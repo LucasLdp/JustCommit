@@ -8,6 +8,10 @@ class GitService {
 
   constructor() {
     this.apiKeyService = new ApiKeyService();
+    this.apiKey = ""; // Inicializando a chave como vazia
+  }
+
+  public async initialize(): Promise<void> {
     this.apiKey = this.apiKeyService.loadApiKey();
   }
 
