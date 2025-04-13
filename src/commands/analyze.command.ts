@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { GitService } from "@/services";
+import { GitService } from "../services";
 
 export const analyzeCommand = new Command("analyze")
   .description("Analyze a specific commit by SHA")

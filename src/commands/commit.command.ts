@@ -1,14 +1,14 @@
-import { ApiKeyService, GitService } from "@/services";
 import { Command } from "commander";
 import readline from "readline";
 import { execSync } from "child_process";
+import { GitService } from "../services";
 
 export const commitCommand = new Command("commit")
   .description("Create a conventional commit based on staged changes")
   .option("-d, --dry-run", "Generate commit message without committing")
   .action(async (options) => {
     try {
-      const gitService = new GitService(); 
+      const gitService = new GitService();
 
       let diff = gitService.getGitDiff();
 

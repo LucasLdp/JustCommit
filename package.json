@@ -1,4 +1,14 @@
 {
+  "name": "justcommit",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "build": "tsc --project tsconfig.json"
+  },
+  "bin": {
+    "justcommit": "./dist/main.js"
+  },
   "devDependencies": {
     "@types/node": "^22.14.1",
     "ts-node": "^10.9.2",

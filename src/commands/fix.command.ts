@@ -1,5 +1,6 @@
-import { GitService } from "@/services";
+
 import { Command } from "commander";
+import { GitService } from "../services";
 
 const gitService = new GitService();
 
