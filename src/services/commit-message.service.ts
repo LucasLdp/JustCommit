@@ -2,17 +2,13 @@ import { execSync } from "child_process";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ApiKeyService } from "./api-key.service";
 
+const apiKeyService = new ApiKeyService();
+
 class GitService {
   private apiKey: string;
-  private apiKeyService: ApiKeyService;
 
   constructor() {
-    this.apiKeyService = new ApiKeyService();
-    this.apiKey = ""; // Inicializando a chave como vazia
-  }
-
-  public async initialize(): Promise<void> {
-    this.apiKey = this.apiKeyService.loadApiKey();
+    this.apiKey = apiKeyService.loadApiKey();
   }
 
   private runSafe(cmd: string): string {
@@ -49,7 +45,7 @@ class GitService {
   ): Promise<string | null> {
     try {
       const genAI = new GoogleGenerativeAI(this.apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
       const prompt = `
         Based on the following git changes, create a conventional commit message.
         Follow the format: <type>(<optional scope>): <description>
