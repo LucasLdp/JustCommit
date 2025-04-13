@@ -2,13 +2,16 @@ import { execSync } from "child_process";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ApiKeyService } from "./api-key.service";
 
-const apiKeyService = new ApiKeyService();
+export class GitService {
+  private apiKey: string | null = null;
+  private useEmojis: boolean = true;
 
-class GitService {
-  private apiKey: string;
-
-  constructor() {
-    this.apiKey = apiKeyService.loadApiKey();
+  private async ensureConfigLoaded() {
+    if (this.apiKey) return;
+    const service = new ApiKeyService();
+    const config = await service.loadConfig();
+    this.apiKey = config.apiKey;
+    this.useEmojis = config.useEmojis;
   }
 
   private runSafe(cmd: string): string {
@@ -45,8 +48,13 @@ class GitService {
     content: string
   ): Promise<string | null> {
     try {
-      const genAI = new GoogleGenerativeAI(this.apiKey);
+      await this.ensureConfigLoaded();
+
+      const genAI = new GoogleGenerativeAI(this.apiKey!);
       const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+      const emojiPrefix = this.useEmojis ? "🎉 " : "";
+
       const prompt = `
         Based on the following git changes, create a conventional commit message.
         Follow the format: <type>(<optional scope>): <description>
@@ -64,23 +72,23 @@ class GitService {
         Changes:
         ${content}
       `;
+
       const result = await model.generateContent(prompt);
-      return result.response.text().trim();
+      const commitMessage = result.response.text().trim();
+      return emojiPrefix + commitMessage;
     } catch (error) {
-      console.error("Failed to generate commit message:", error);
+      console.error("Falha ao gerar o commit:", error);
       return null;
     }
   }
 
   public createCommit(message: string): void {
     execSync(`git commit -m "${message.replace(/"/g, '\\"')}"`);
-    console.log(`Commit created: ${message}`);
+    console.log(`Commit criado: ${message}`);
   }
 
   public amendLastCommit(message: string): void {
     execSync(`git commit --amend -m "${message.replace(/"/g, '\\"')}"`);
-    console.log(`Commit amended: ${message}`);
+    console.log(`Commit modificado: ${message}`);
   }
 }
-
-export { GitService };

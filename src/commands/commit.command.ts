@@ -8,7 +8,7 @@ export const commitCommand = new Command("commit")
   .option("-d, --dry-run", "Generate commit message without committing")
   .action(async (options) => {
     try {
-      const gitService = new GitService(); // Usando a classe estendida
+      const gitService = new GitService(); 
 
       let diff = gitService.getGitDiff();
 

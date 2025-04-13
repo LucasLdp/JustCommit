@@ -15,9 +15,9 @@ const program = new Command();
 
 program.version("1.0.0").description("AI commit tool");
 
+program.addCommand(setupCommand);
 program.addCommand(commitCommand);
 program.addCommand(analyzeCommand);
-program.addCommand(setupCommand);
 program.addCommand(fixCommand);
 
 program.parse(process.argv);
