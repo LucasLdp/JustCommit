@@ -32,6 +32,10 @@ class GitService {
     return this.runSafe("git diff --cached");
   }
 
+  public getGitStatus(): string {
+    return this.runSafe("git status --porcelain");
+  }
+
   public getLastCommits(count = 1): string {
     return this.runSafe(`git log -${count} --pretty=format:"%h %s" --stat`);
   }

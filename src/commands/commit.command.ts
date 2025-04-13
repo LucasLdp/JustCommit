@@ -1,4 +1,4 @@
-import { GitService } from "@/services";
+import { ApiKeyService, GitService } from "@/services";
 import { Command } from "commander";
 import readline from "readline";
 import { execSync } from "child_process";
@@ -8,11 +8,19 @@ export const commitCommand = new Command("commit")
   .option("-d, --dry-run", "Generate commit message without committing")
   .action(async (options) => {
     try {
-      const gitService = new GitService();
+      const gitService = new GitService(); // Usando a classe estendida
 
       let diff = gitService.getGitDiff();
 
       if (!diff) {
+        const hasChanges = gitService.getGitStatus();
+        if (!hasChanges) {
+          console.log(
+            "⚠️ Nenhuma alteração encontrada. Nenhum arquivo foi modificado."
+          );
+          return;
+        }
+
         const addFiles = await askQuestion(
           "Nenhuma alteração staged encontrada. Deseja executar 'git add .' para adicionar todos os arquivos? (y/n): "
         );
