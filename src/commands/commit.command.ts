@@ -15,8 +15,8 @@ export const commitCommand = new Command("commit")
       if (!diff) {
         const hasChanges = gitService.getGitStatus();
         if (!hasChanges) {
-          console.log(
-            "⚠️ Nenhuma alteração encontrada. Nenhum arquivo foi modificado."
+          console.warn(
+            "Nenhuma alteração encontrada. Nenhum arquivo foi modificado."
           );
           return;
         }

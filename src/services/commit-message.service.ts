@@ -24,9 +24,6 @@ class GitService {
   public getGitDiff(): string {
     const stagedFiles = this.runSafe("git diff --cached --name-only");
     if (!stagedFiles) {
-      console.warn(
-        "Nenhuma alteração staged encontrada. Use 'git add' primeiro."
-      );
       return "";
     }
     return this.runSafe("git diff --cached");
