@@ -6,7 +6,7 @@ export class ApiKeyService {
   private configFilePath: string;
 
   constructor() {
-    this.configFilePath = path.join(os.homedir(), "gemini-commit-config.json");
+    this.configFilePath = path.join(os.homedir(), "just-commit-config.json");
   }
 
   public async loadConfig(): Promise<{ apiKey: string; useEmojis: boolean }> {

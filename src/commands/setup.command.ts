@@ -9,7 +9,7 @@ async function saveConfig(config: {
   useEmojis: boolean;
 }): Promise<void> {
   try {
-    const configFilePath = path.join(os.homedir(), "gemini-commit-config.json");
+    const configFilePath = path.join(os.homedir(), "just-commit-config.json");
 
     await fs.writeFile(configFilePath, JSON.stringify(config, null, 2), "utf8");
     console.log("Configurações salvas com sucesso!");
